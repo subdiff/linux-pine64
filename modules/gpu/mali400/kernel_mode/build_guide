@@ -1,0 +1,50 @@
+==============================================================================================
+Date: 2015-09-10
+Author: Albert Yu
+
+This guide is for Mali400 r5p1-01rel0 version ddk (Kernel Mode)
+==============================================================================================
+Build UMP
+===========
+UMP root directory:
+driver/src/devicedrv/ump
+
+Before build UMP driver, you should enter into UMP root directory first.
+
+make ARCH=<arm/arm64> CROSS_COMPILE=<cross compiler prefix> KDIR=<path to Linux kernel dir> CONFIG=<config for platform> BUILD=<debug|release>
+--------Note---------
+There are some compilation errors for 64 bit platform.
+---------------------
+
+Description for the options for building the UMP Linux device driver:
+Option                      Description
+ARCH                        Architecture type
+CROSS_COMPILE               Cross compiler prefix
+CONFIG                      In driver/src/devicedrv/ump, you can see arch-<config for platform>
+                            directories, you'd better modify your own configuration in
+							arch-<config for platform>/config.h.
+BUILD                       release or debug
+KDIR                        Path of the Linux kernel directory to build against
+
+==============================================================================================
+Build Mali
+===========
+Mali root directory:
+driver/src/devicedrv/mali
+
+Before build Mali driver, you should enter into Mali root directory first.
+
+make ARCH=<arm/arm64> CROSS_COMPILE=<cross compiler prefix> KDIR=<path to Linux kernel dir> BUILD=<debug|release> USING_UMP=<0|1> USING_PROFILING=<1|0> USING_DT=<1|0>
+
+Description for the options for building the Mali Linux device driver:
+Option                      Description
+ARCH                        Architecture type
+CROSS_COMPILE               Cross compiler prefix
+BUILD                       release or debug
+USING_UMP                   Enables UMP
+USING_PROFILING             Enables profiling
+MALI_DMA_BUF_MAP_ON_ATTACH   Enable mapping of dma-buf buffers on attach instead of map on use.
+                            If not enabled, this requires the VARIANT option dma_buf_tracking.
+MALI_SHARED_INTERRUPTS      Enable support for shared Mali GPU interrupts.
+KDIR                        Path of the Linux kernel directory to build against
+USING_DT                    If the CONFIG_OF flag in the kernel .config is enabled, USING_DT is 1, or it's 0.
